@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Laurent & Sofia — Undangan Pernikahan</title>
+<title>Evan & quinsa — Undangan Pernikahan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -390,7 +390,7 @@
 
         <div>
           <p class="kicker">The Wedding Of</p>
-          <h1 class="cover-names">Laurent <em>&amp;</em> Sofia</h1>
+          <h1 class="cover-names">Evan <em>&amp;</em> quinsa</h1>
           <p class="cover-date" id="coverDate">06 . 03 . 2027</p>
         </div>
 
@@ -419,7 +419,7 @@
         <!-- OPENING -->
         <section class="section glass" data-section>
           <p class="opening-quote">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia jadikan di antaramu rasa kasih dan sayang."</p>
-          <p class="opening-names">Laurent&amp; Quinsa</p>
+          <p class="opening-names">Evan &amp; Quinsa</p>
         </section>
 
         <!-- MEMPELAI -->
@@ -429,12 +429,12 @@
           <div class="couple-grid">
             <div class="couple-card">
               <div class="couple-photo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B08A47" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
-              <p class="couple-name">,S.T.</p>
+              <p class="couple-name">Evan,S.T.</p>
               <p class="couple-parents">Putra dari<br>Bapak Hendra Wijaya &amp;<br>Ibu Ratna Kusuma</p>
             </div>
             <div class="couple-card">
               <div class="couple-photo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B08A47" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
-              <p class="couple-name">Sofia Lolita Elishabet</p>
+              <p class="couple-name">Quinsa Salsabila Putri, S.E.</p>
               <p class="couple-parents">Putri dari<br>Bapak Ahmad Syarif &amp;<br>Ibu Dewi Anggraini</p>
             </div>
           </div>
@@ -554,7 +554,7 @@
             <div>
               <div class="bank-name">BCA</div>
               <div class="bank-num">8760123456</div>
-              <div class="bank-owner">a.n. Laurent Andreas Sembiring</div>
+              <div class="bank-owner">a.n. Evan Aditya Wijaya</div>
             </div>
             <button class="btn-copy" data-copy="8760123456" type="button">Salin</button>
           </div>
@@ -578,7 +578,7 @@
         <section class="section glass closing" data-section>
           <p class="closing-text">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
           <p class="closing-text" style="margin-top:10px;">Atas kehadiran dan doa restunya, kami ucapkan terima kasih.</p>
-          <p class="closing-signature">Laurent &amp; Sofia</p>
+          <p class="closing-signature">Evan &amp; Nadia</p>
           <p class="credit">Dibuat dengan 🤍 — data pada undangan ini adalah contoh dan dapat diganti sesuai kebutuhan Anda.</p>
         </section>
 
@@ -587,6 +587,9 @@
 
   </div>
 </div>
+
+<!-- Musik latar: pastikan file musik.mp3 ada di folder yang sama dengan index.html -->
+<audio id="bgMusic" src="musik.mp3" loop preload="auto"></audio>
 
 <button class="music-btn" id="musicBtn" type="button" aria-label="Musik latar">🔈</button>
 
@@ -597,7 +600,7 @@
   /* ============ CONFIG — ganti data di sini ============ */
   var CONFIG = {
     weddingDateTimeISO: "2027-03-06T08:00:00+07:00",
-    storagePrefix: "undangan_Laurent_Sofia_"
+    storagePrefix: "undangan_evan_nadia_"
   };
 
   /* ---- guest name from ?to= ---- */
@@ -822,67 +825,23 @@
     svg.innerHTML = html;
   })();
 
-  /* ============ AMBIENT BACKGROUND MUSIC (generative, no external file) ============ */
-  var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-  var actx = null, masterGain = null, musicRunning = false, musicMuted = false, timerId = null;
-  var scale = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // A minor pentatonic-ish, warm
-
-  function ensureAudio(){
-    if (!AudioCtxClass) return false;
-    if (!actx){
-      actx = new AudioCtxClass();
-      masterGain = actx.createGain();
-      masterGain.gain.value = 0.0001;
-      masterGain.connect(actx.destination);
-    }
-    return true;
-  }
-
-  function pluck(freq, time, dur){
-    var osc = actx.createOscillator();
-    var g = actx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.value = freq;
-    g.gain.setValueAtTime(0.0001, time);
-    g.gain.linearRampToValueAtTime(0.09, time + 0.04);
-    g.gain.exponentialRampToValueAtTime(0.0001, time + dur);
-    osc.connect(g); g.connect(masterGain);
-    osc.start(time); osc.stop(time + dur + 0.05);
-  }
-
-  function scheduleLoop(){
-    if (!musicRunning) return;
-    var now = actx.currentTime + 0.05;
-    var notes = 6;
-    var step = 0.62;
-    for (var i=0; i<notes; i++){
-      var freq = scale[Math.floor(Math.random()*scale.length)];
-      pluck(freq, now + i*step, step*1.6);
-    }
-    timerId = setTimeout(scheduleLoop, notes*step*1000);
-  }
+  /* ============ MUSIK LATAR (file MP3) ============ */
+  var lagu = document.getElementById('bgMusic');
 
   function startMusic(){
-    if (!ensureAudio()) return;
-    if (actx.state === 'suspended') actx.resume();
-    if (!musicRunning){
-      musicRunning = true;
-      scheduleLoop();
-    }
-    if (!musicMuted){
-      masterGain.gain.linearRampToValueAtTime(0.8, actx.currentTime + 1.2);
-      updateMusicIcon(true);
-    }
+    lagu.volume = 0.8;
+    lagu.play().catch(function(){ /* browser mungkin masih blokir sebelum interaksi user */ });
+    updateMusicIcon(true);
   }
 
   function toggleMusic(){
-    if (!ensureAudio()) return;
-    if (actx.state === 'suspended') actx.resume();
-    if (!musicRunning) startMusic();
-    musicMuted = !musicMuted;
-    var target = musicMuted ? 0.0001 : 0.8;
-    masterGain.gain.linearRampToValueAtTime(target, actx.currentTime + 0.5);
-    updateMusicIcon(!musicMuted);
+    if (lagu.paused){
+      lagu.play().catch(function(){});
+      updateMusicIcon(true);
+    } else {
+      lagu.pause();
+      updateMusicIcon(false);
+    }
   }
 
   function updateMusicIcon(playing){
@@ -891,11 +850,6 @@
   }
 
   document.getElementById('musicBtn').addEventListener('click', toggleMusic);
-
-  /* Alternatif: gunakan file musik asli Anda dengan menambahkan:
-     <audio id="bgMusic" src="URL_MUSIK_ANDA.mp3" loop></audio>
-     lalu panggil document.getElementById('bgMusic').play() / .pause()
-     pada fungsi startMusic() / toggleMusic() di atas. */
 
 })();
 </script>
