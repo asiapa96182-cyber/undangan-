@@ -23,7 +23,7 @@ CARA GANTI DATA (semua di dalam index.html)
 
 3. Nama mempelai, orang tua, tanggal, dan alamat ada di bagian HTML,
    cari teks berikut lalu ganti sesuai kebutuhan:
-     - "Evan" dan "Nadia"                -> nama mempelai
+     - "Laurent" dan "Sofia"                -> nama mempelai
      - "Hendra Wijaya" / "Ratna Kusuma"  -> nama orang tua mempelai pria
      - "Ahmad Syarif" / "Dewi Anggraini" -> nama orang tua mempelai wanita
      - "Masjid Al-Ikhlas..."             -> lokasi akad
